@@ -4,6 +4,7 @@ var site;
 var env;
 var service;
 var version;
+var enableSessionReplay;
 
 console.log("contentjs run...")
 
@@ -22,6 +23,7 @@ chrome.storage.sync.get({
     env=items.env;
     service=items.service;
     version=items.version;
+    enableSessionReplay=items.enableSessionReplay;
     //console.log("get method appid is:" + applicationid + " and clienttoken is: " + clienttoken1);
     // if (window.DD_RUM && window.DD_RUM.) {ddruminit();}
     ddruminit();
@@ -57,6 +59,9 @@ function ddruminit(){
         silentMultipleInit: true,
         trackSessionAcrossSubdomains: true
     });
+    if (enableSessionReplay!=false) {
+        window.DD_RUM && window.DD_RUM.startSessionReplayRecording();
+    }
 
     window.DD_RUM && window.DD_RUM.setUser({
         id: '12345abc001',

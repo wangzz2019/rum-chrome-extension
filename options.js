@@ -7,7 +7,8 @@ function save_options() {
     var site=document.getElementById('site').value;
     var service=document.getElementById('service').value;
     var env=document.getElementById('env').value;
-
+    var enableSessionReplay=document.getElementById('sessionreplay').checked;
+    console.log(enableSessionReplay);
     chrome.storage.sync.set({
       match: match,
       appid: applicationid,
@@ -15,7 +16,8 @@ function save_options() {
       version: version,
       site: site,
       service: service,
-      env: env
+      env: env,
+      enableSessionReplay: enableSessionReplay
     }, function() {
       // Update status to let user know options were saved.
       var status = document.getElementById('status');
@@ -37,7 +39,8 @@ function save_options() {
       site: 'datadoghq.com',
       service: 'rumdemo',
       version: '1.0.0',
-      env: 'demo'
+      env: 'demo',
+      enableSessionReplay: true
     }, function(items) {
       document.getElementById('match').value = items.match;
       document.getElementById('appid').value = items.appid;
@@ -46,6 +49,7 @@ function save_options() {
       document.getElementById('service').value = items.service;
       document.getElementById('version').value = items.version;
       document.getElementById('env').value = items.env;
+      document.getElementById('sessionreplay').checked = items.enableSessionReplay;
     });
   }
   function cleardata(){
@@ -56,6 +60,7 @@ function save_options() {
       document.getElementById('service').value='rumdemo';
       document.getElementById('site').value='datadoghq.com';
       document.getElementById('version').value='1.0.0';
+      document.getElementById('sessionreplay').checked = true;
   }
   document.addEventListener('DOMContentLoaded', restore_options);
   document.getElementById('save').addEventListener('click',save_options);
