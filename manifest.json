@@ -1,0 +1,36 @@
+{
+  "name": "Datadog RUM extension",
+  "version": "1.2",
+  "manifest_version": 3,
+  "description": "Real User Monitoring",
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
+  "icons": {
+    "64": "rum_icon.png"
+  },
+  "content_scripts": [{
+    "matches": ["http://*/*", "https://*/*"],
+    "js": ["empty.js"],
+    "run_at":"document_start"
+  }],
+  "background": {
+    "service_worker": "service_worker.js"
+  },
+  "permissions":
+  [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ],
+  "action":
+  {
+    "default_icon": "rum_icon.png",
+    "default_title": "This is a Datadog rum extension",
+    "default_popup": "popup.html"
+  }
+}
