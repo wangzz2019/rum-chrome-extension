@@ -6,7 +6,7 @@ var service;
 var version;
 var enableSessionReplay;
 
-console.log("contentjs run...")
+// console.log("contentjs run...")
 
 chrome.storage.sync.get({
     appid:'xxx',
@@ -14,7 +14,8 @@ chrome.storage.sync.get({
     site: 'datadoghq.com',
     env: 'demo',
     service: 'rumdemo',
-    version: '1.0.0'
+    version: '1.0.0',
+    enableSessionReplay: true
     },function(items){
     //console.log("appid is:" + items.appid + " and clienttoken is: " + items.clitoken);
     applicationid=items.appid;
