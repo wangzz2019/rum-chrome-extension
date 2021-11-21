@@ -8,7 +8,12 @@ function save_options() {
     var service=document.getElementById('service').value;
     var env=document.getElementById('env').value;
     var enableSessionReplay=document.getElementById('sessionreplay').checked;
-    console.log(enableSessionReplay);
+    //user session
+    var enableUserSession=document.getElementById('usersession').checked;
+    var userid=document.getElementById('userid').value;
+    var username=document.getElementById('username').value;
+    var useremail=document.getElementById('useremail').value;
+    // console.log(enableSessionReplay);
     chrome.storage.sync.set({
       match: match,
       appid: applicationid,
@@ -17,7 +22,12 @@ function save_options() {
       site: site,
       service: service,
       env: env,
-      enableSessionReplay: enableSessionReplay
+      enableSessionReplay: enableSessionReplay,
+      //user session data
+      enableUserSession: enableUserSession,
+      userid: userid,
+      username: username,
+      useremail: useremail
     }, function() {
       // Update status to let user know options were saved.
       var status = document.getElementById('status');
@@ -40,7 +50,12 @@ function save_options() {
       service: 'rumdemo',
       version: '1.0.0',
       env: 'demo',
-      enableSessionReplay: true
+      enableSessionReplay: true,
+      //user session data
+      enableUserSession: false,
+      userid: '123456',
+      username: 'Jack Wang',
+      useremail: 'jack.wang@datadoghq.com'
     }, function(items) {
       document.getElementById('match').value = items.match;
       document.getElementById('appid').value = items.appid;
@@ -50,6 +65,14 @@ function save_options() {
       document.getElementById('version').value = items.version;
       document.getElementById('env').value = items.env;
       document.getElementById('sessionreplay').checked = items.enableSessionReplay;
+      //user session
+      document.getElementById('usersession').checked = items.enableUserSession;
+      document.getElementById('userid').value = items.userid;
+      document.getElementById('username').value = items.username;
+      document.getElementById('useremail').value = items.useremail;
+      if (items.enableUserSession){
+        showUserSession();
+      }
     });
   }
   function cleardata(){
@@ -61,7 +84,22 @@ function save_options() {
       document.getElementById('site').value='datadoghq.com';
       document.getElementById('version').value='1.0.0';
       document.getElementById('sessionreplay').checked = true;
+      //user session
+      document.getElementById('usersession').checked = false;
+      document.getElementById('userid').value='123456';
+      document.getElementById('username').value='Jack Wang';
+      document.getElementById('useremail').value='jack.wang@datadoghq.com';
+  }
+  function showUserSession(){
+    divUs=document.getElementById('divUsersession')
+    if (divUs.style.display=='none'){
+      divUs.style.display='block';
+    }
+    else{
+      divUs.style.display="none";
+    }
   }
   document.addEventListener('DOMContentLoaded', restore_options);
   document.getElementById('save').addEventListener('click',save_options);
   document.getElementById('clear').addEventListener('click',cleardata);
+  document.getElementById('usersession').addEventListener('click',showUserSession);

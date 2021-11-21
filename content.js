@@ -5,6 +5,11 @@ var env;
 var service;
 var version;
 var enableSessionReplay;
+//user session
+var enableUserSession;
+var userid;
+var username;
+var useremail;
 
 // console.log("contentjs run...")
 
@@ -15,7 +20,12 @@ chrome.storage.sync.get({
     env: 'demo',
     service: 'rumdemo',
     version: '1.0.0',
-    enableSessionReplay: true
+    enableSessionReplay: true,
+    //user session
+    enableUserSession: false,
+    userid: '123456',
+    username: 'Jack Wang',
+    useremail: 'jack.wang@datadoghq.com'
     },function(items){
     //console.log("appid is:" + items.appid + " and clienttoken is: " + items.clitoken);
     applicationid=items.appid;
@@ -25,6 +35,12 @@ chrome.storage.sync.get({
     service=items.service;
     version=items.version;
     enableSessionReplay=items.enableSessionReplay;
+    //user session
+    enableUserSession=items.enableUserSession;
+    userid=items.userid;
+    username=items.username;
+    useremail=items.useremail;
+
     //console.log("get method appid is:" + applicationid + " and clienttoken is: " + clienttoken1);
     // if (window.DD_RUM && window.DD_RUM.) {ddruminit();}
     ddruminit();
@@ -63,12 +79,12 @@ function ddruminit(){
     if (enableSessionReplay!=false) {
         window.DD_RUM && window.DD_RUM.startSessionReplayRecording();
     }
-
-    window.DD_RUM && window.DD_RUM.setUser({
-        id: '12345abc001',
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        membership: 'gold'
-    });
+    if (enableUserSession!=false){
+        window.DD_RUM && window.DD_RUM.setUser({
+            id: userid,
+            name: username,
+            email: useremail
+        });
+    }
 }
 
