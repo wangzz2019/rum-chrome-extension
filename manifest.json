@@ -1,6 +1,6 @@
 {
   "name": "Datadog RUM extension",
-  "version": "1.4",
+  "version": "1.5",
   "manifest_version": 3,
   "description": "Real User Monitoring",
   "options_ui": {

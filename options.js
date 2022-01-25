@@ -7,7 +7,19 @@ function save_options() {
     var site=document.getElementById('site').value;
     var service=document.getElementById('service').value;
     var env=document.getElementById('env').value;
+    //session replay
     var enableSessionReplay=document.getElementById('sessionreplay').checked;
+    var privacy='mask-user-input';
+    if (document.getElementById('mask').checked){
+      privacy='mask';
+    }
+    else if (document.getElementById('allow').checked){
+      privacy='allow';
+    }
+    //trace connect
+    var enableTraceConnect=document.getElementById('trace').checked;
+    var traceorigins=document.getElementById('traceorigins').value;
+    console.log(traceorigins);
     //user session
     var enableUserSession=document.getElementById('usersession').checked;
     var userid=document.getElementById('userid').value;
@@ -22,7 +34,12 @@ function save_options() {
       site: site,
       service: service,
       env: env,
+      //sessionreplay
       enableSessionReplay: enableSessionReplay,
+      privacy: privacy,
+      //trace connect
+      enableTraceConnect: enableTraceConnect,
+      traceorigins: traceorigins,
       //user session data
       enableUserSession: enableUserSession,
       userid: userid,
@@ -50,12 +67,17 @@ function save_options() {
       service: 'rumdemo',
       version: '1.0.0',
       env: 'demo',
+      //sessionreplay
       enableSessionReplay: true,
+      privacy: 'mask-user-input',
+      //trace connect
+      enableTraceConnect: false,
+      traceorigins:'',
       //user session data
       enableUserSession: false,
       userid: '123456',
       username: 'Jack Wang',
-      useremail: 'jack.wang@datadoghq.com'
+      useremail: 'wangzz@datadoghq.com'
     }, function(items) {
       document.getElementById('match').value = items.match;
       document.getElementById('appid').value = items.appid;
@@ -64,7 +86,26 @@ function save_options() {
       document.getElementById('service').value = items.service;
       document.getElementById('version').value = items.version;
       document.getElementById('env').value = items.env;
+      //sessionreplay
       document.getElementById('sessionreplay').checked = items.enableSessionReplay;
+      if (items.privacy == 'allow'){
+        document.getElementById('allow').checked = true;
+      }
+      else if (items.privacy == 'mask'){
+        document.getElementById('mask').checked = true;
+      }
+      else{
+        document.getElementById('maskuserinput').checked = true;
+      }
+      if (items.enableSessionReplay){
+        showSessionReplay();
+      }
+      //trace connect
+      document.getElementById('trace').checked = items.enableTraceConnect;
+      document.getElementById('traceorigins').value = items.traceorigins;
+      if (items.enableTraceConnect){
+        showTraceConnect();
+      }
       //user session
       document.getElementById('usersession').checked = items.enableUserSession;
       document.getElementById('userid').value = items.userid;
@@ -83,15 +124,39 @@ function save_options() {
       document.getElementById('service').value='rumdemo';
       document.getElementById('site').value='datadoghq.com';
       document.getElementById('version').value='1.0.0';
+      //session replay
       document.getElementById('sessionreplay').checked = true;
+      document.getElementById('maskuserinput').checked = true;
+      //trace connect
+      document.getElementById('trace').checked = false;
+      document.getElementById('traceorigins').value = '';
       //user session
       document.getElementById('usersession').checked = false;
       document.getElementById('userid').value='123456';
       document.getElementById('username').value='Jack Wang';
-      document.getElementById('useremail').value='jack.wang@datadoghq.com';
+      document.getElementById('useremail').value='wangzz@datadoghq.com';
+
   }
   function showUserSession(){
     divUs=document.getElementById('divUsersession')
+    if (divUs.style.display=='none'){
+      divUs.style.display='block';
+    }
+    else{
+      divUs.style.display="none";
+    }
+  }
+  function showSessionReplay(){
+    divUs=document.getElementById('defaultPrivacyLevel')
+    if (divUs.style.display=='block'){
+      divUs.style.display='none';
+    }
+    else{
+      divUs.style.display="block";
+    }
+  }
+  function showTraceConnect(){
+    divUs=document.getElementById('divTraceConnect')
     if (divUs.style.display=='none'){
       divUs.style.display='block';
     }
@@ -103,3 +168,7 @@ function save_options() {
   document.getElementById('save').addEventListener('click',save_options);
   document.getElementById('clear').addEventListener('click',cleardata);
   document.getElementById('usersession').addEventListener('click',showUserSession);
+  document.getElementById('sessionreplay').addEventListener('click',showSessionReplay);
+  document.getElementById('trace').addEventListener('click',showTraceConnect);
+
+  
